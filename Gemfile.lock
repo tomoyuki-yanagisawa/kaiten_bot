@@ -38,6 +38,10 @@ GEM
     multipart-post (2.3.0)
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
+    redis (5.0.6)
+      redis-client (>= 0.9.0)
+    redis-client (0.14.0)
+      connection_pool
     ruby2_keywords (0.0.5)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -50,6 +54,7 @@ DEPENDENCIES
   faraday (~> 1.0)
   json
   net-http-persistent
+  redis
 
 BUNDLED WITH
    2.4.6
