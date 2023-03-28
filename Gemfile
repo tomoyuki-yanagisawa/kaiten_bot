@@ -2,5 +2,6 @@
 
 source "https://rubygems.org"
 
+gem "activesupport"
 gem "faraday", "~> 1.0"
 gem "json"
