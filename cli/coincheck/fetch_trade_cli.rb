@@ -1,3 +1,4 @@
 require_relative "../../boot"
 
-puts Coincheck::FetchTrade.request(pair: ARGV[0]).to_json
+client = Coincheck::Client::Public.new
+puts Coincheck::FetchTrade.request(client, pair: ARGV[0]).to_json

@@ -2,16 +2,23 @@ module Coincheck
   module FetchRate
     module_function
 
-    URL = "https://coincheck.com/api/rate"
+    def request(client, pair:)
+      res = client.rate(pair)
 
-    def request(pair)
-      body = Faraday.get(File.join(URL, pair)).body
-      json = JSON.parse(body)
+      case res.status
+      when 200...300
+        json = JSON.parse(res.body)
 
-      {
-        pair: pair,
-        rate: json.fetch("rate")
-      }
+        {
+          success: true,
+          pair: pair,
+          rate: json.fetch("rate")
+        }
+      else
+        {
+          success: false
+        }
+      end
     end
   end
 end

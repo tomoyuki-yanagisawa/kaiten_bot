@@ -2,13 +2,10 @@ module Coincheck
   module FetchTrade
     module_function
 
-    URL = "https://coincheck.com"
-
-    def request(pair:, limit: 100)
+    def request(client, pair:, limit: 100)
       params = { pair: pair, limit: limit }
 
-      conn = Faraday.new(url: URL, headers: { "Content-Type" => "application/json" })
-      res = conn.get("/api/trades", params)
+      res = client.trades(**params)
 
       json = JSON.parse(res.body)
     
