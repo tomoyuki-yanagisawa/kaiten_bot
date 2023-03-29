@@ -29,6 +29,8 @@ jobs:
       redis:
         # Docker Hub image
         image: redis
+        ports:
+          - 6379:6379
 
     steps:
     - uses: actions/checkout@v3
@@ -43,4 +45,4 @@ jobs:
     - name: Run tests
       run: bash test/run.sh
       env:
-        STORE_REDIS_URL: redis://redis/1
+        STORE_REDIS_URL: redis://localhost/1
