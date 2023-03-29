@@ -42,3 +42,5 @@ jobs:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Run tests
       run: bash test/run.sh
+      env:
+        STORE_REDIS_URL: redis://redis/1
