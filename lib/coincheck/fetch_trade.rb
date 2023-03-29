@@ -17,7 +17,8 @@ module Coincheck
         }
       else
         {
-          success: false
+          success: false,
+          code: res.status
         }
       end
     end
