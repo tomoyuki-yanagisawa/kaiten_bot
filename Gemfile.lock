@@ -31,6 +31,7 @@ GEM
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
     faraday-retry (1.0.3)
+    foreman (0.87.2)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     json (2.6.3)
@@ -52,6 +53,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   faraday (~> 1.0)
+  foreman
   json
   net-http-persistent
   redis
