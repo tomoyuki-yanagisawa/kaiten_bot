@@ -5,6 +5,8 @@ Bundler.require
 require 'active_support/all'
 require 'bigdecimal/util'
 
+$config = YAML.load(ERB.new(File.read('./config.yml')).result)
+
 Time.zone = 'Tokyo'
 
 Dir[File.join(__dir__, 'apis', '**', '*.rb')].each do |file|

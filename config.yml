@@ -1,0 +1,2 @@
+store:
+  redis_url: <%= ENV.fetch('STORE_REDIS_URL', 'redis://localhost/1') %>

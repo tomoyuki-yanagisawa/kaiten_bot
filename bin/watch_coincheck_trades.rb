@@ -12,7 +12,7 @@ INTERVAL_CONST_MILI_SEC = 200
 INTERVAL_ERROR_MILI_SEC = 5
 
 client = Coincheck::Client::Public.new
-driver = Redis.new(url: "redis://localhost/1")
+driver = Redis.new(url: $config["store"]["redis_url"])
 
 store = ExchangeTrade.new(driver, exchange: :coincheck)
 
