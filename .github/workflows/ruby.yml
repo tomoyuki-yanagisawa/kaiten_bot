@@ -49,7 +49,7 @@ jobs:
     - name: ls
       run: ls
     - name: Run rubocop
-      run: bundle exec rubocop ./**/*.rb
+      run: find . -name "*.rb" | xargs bundle exec rubocop
     - name: Run tests
       run: bash test/run.sh
       env:
