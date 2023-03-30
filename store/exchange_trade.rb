@@ -15,21 +15,23 @@ class ExchangeTrade
   end
 
   def save_rate(item, expire: 3.day)
-    key = "#@prefix:#{item.fetch(:timestamp)}:#{item.fetch(:id)}"
-    args = item.slice(*ALLOW_KEYS).flat_map { |key, value| [key, value] }
-
-    @driver.multi do |conn|
-      conn.hset(key, *args)
-      conn.expire(key, expire)
-    end
+    collection = @driver[@prefix]
+    collection.update_one(item.slice(:id), { '$setOnInsert' => item.slice(*ALLOW_KEYS) }, upsert: true)
   end
 
-  def get_rates(current_time: Time.zone.now)
-    keys = @driver.keys("#@prefix:#{current_time.to_i.to_s[0...-4]}*") # 10**4-1 = 9999
-    list = @driver.pipelined do |conn|
-      keys.each { |name| conn.hgetall(name) }
+  def get_rates(current_time: Time.zone.now, duration: 60.minutes)
+    collection = @driver[@prefix]
+
+    query = {
+      timestamp: {
+        '$gt' => (current_time - duration).to_i,
+        '$lte' => current_time.to_i,
+      }
+    }
+
+    list = collection.find(query).map do |item|
+      item.to_h.symbolize_keys!.except(:_id)
     end
-    list.each(&:symbolize_keys!)
     list.sort_by! { |item| [-item.fetch(:timestamp).to_i, -item.fetch(:id).to_i] }
   end
 

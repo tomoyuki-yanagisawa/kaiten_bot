@@ -12,7 +12,7 @@ INTERVAL_CONST_MILI_SEC = 200
 INTERVAL_ERROR_MILI_SEC = 5
 
 client = Coincheck::Client::Public.new
-driver = Redis.new(url: $config["store"]["redis_url"])
+driver = Mongo::Client.new($config.dig("store", "mongo_url"))
 
 store = ExchangeTrade.new(driver, exchange: :coincheck)
 
