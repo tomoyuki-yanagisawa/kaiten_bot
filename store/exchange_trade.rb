@@ -8,6 +8,11 @@ class ExchangeTrade
     timestamp
   ].freeze
 
+  DECIMAL_KEYS = %i[
+    price
+    amount
+  ].freeze
+
   def initialize(driver, exchange:)
     @driver = driver
     @exchange = exchange
@@ -31,13 +36,8 @@ class ExchangeTrade
       },
     }
 
-    list = collection.find(query).map do |item|
-      item.to_h.symbolize_keys!.except(:_id)
-    end
-
-    list.each do |item|
-      item[:price] = item[:price].to_d
-      item[:amount] = item[:amount].to_d
+    list = collection.find(query).map(&:to_h).map do |item|
+      item.symbolize_keys!.except!(:_id).merge! item.slice(*DECIMAL_KEYS).transform_values(&:to_d)
     end
 
     list.sort_by! { |item| [-item.fetch(:timestamp), -item.fetch(:id)] }
