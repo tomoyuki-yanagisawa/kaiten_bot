@@ -4,7 +4,7 @@ $stdout.sync = true
 
 $logger = Logger.new(STDOUT)
 
-_terminate = false
+_terminate = ENV["TERMINATE"] || false
 
 Signal.trap(:INT) { _terminate = true }
 
@@ -16,7 +16,7 @@ driver = Mongo::Client.new($config.dig("store", "mongo_url"))
 
 store = ExchangeTrade.new(driver, exchange: :coincheck)
 
-while !_terminate
+loop do
   stime = Time.zone.now
 
   trade = Coincheck::FetchTrade.request(client, pair: "btc_jpy")
@@ -26,6 +26,8 @@ while !_terminate
   trade[:list].reverse.each do |item|
     store.save_trade(item)
   end
+
+  break if _terminate
 
   etime = Time.zone.now
 
