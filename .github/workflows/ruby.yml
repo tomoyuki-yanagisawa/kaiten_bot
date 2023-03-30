@@ -49,7 +49,7 @@ jobs:
     - name: ls
       run: ls
     - name: Run rubocop
-      run: bundle exec rubocop **/*.rb
+      run: bundle exec rubocop ./**/*.rb
     - name: Run tests
       run: bash test/run.sh
       env:
