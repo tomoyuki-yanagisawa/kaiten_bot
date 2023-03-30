@@ -4,6 +4,10 @@ GlobalVars:
   AllowedVariables:
     - $config
     - $logger
+Lint/UnderscorePrefixedVariableName:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
 Style/FrozenStringLiteralComment:
   Enabled: false
 Style/TrailingCommaInArrayLiteral:
