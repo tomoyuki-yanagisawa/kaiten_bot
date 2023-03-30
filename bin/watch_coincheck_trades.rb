@@ -24,7 +24,7 @@ while !_terminate
   $logger.info trade[:list].first
 
   trade[:list].reverse.each do |item|
-    store.save_rate(item)
+    store.save_trade(item)
   end
 
   etime = Time.zone.now

@@ -16,12 +16,12 @@ class ExchangeTrade
     @driver[@prefix].indexes.create_one({ timestamp: 1 })
   end
 
-  def save_rate(item, expire: 3.day)
+  def save_trade(item, expire: 3.day)
     collection = @driver[@prefix]
     collection.update_one(item.slice(:id), { '$setOnInsert' => item.slice(*ALLOW_KEYS) }, upsert: true)
   end
 
-  def get_rates(current_time: Time.zone.now, duration: 60.minutes)
+  def get_trades(current_time: Time.zone.now, duration: 60.minutes)
     collection = @driver[@prefix]
 
     query = {
@@ -37,15 +37,15 @@ class ExchangeTrade
     list.sort_by! { |item| [-item.fetch(:timestamp).to_i, -item.fetch(:id).to_i] }
   end
 
-  def get_rates_group_by(unit: 1.minute)
-    target_rates = get_rates
+  def get_trades_group_by(unit: 1.minute)
+    target_trades = get_trades
 
-    since_time = target_rates.map { |rate| rate.fetch(:timestamp) }.min.to_i
-    until_time = target_rates.map { |rate| rate.fetch(:timestamp) }.max.to_i
+    since_time = target_trades.map { |trade| trade.fetch(:timestamp) }.min.to_i
+    until_time = target_trades.map { |trade| trade.fetch(:timestamp) }.max.to_i
 
     until_time.step(to: since_time, by: -unit.to_i).each_cons(2).map do |until_range, since_range|
-      group = target_rates.select do |rate|
-        timestamp = rate.fetch(:timestamp).to_i
+      group = target_trades.select do |trade|
+        timestamp = trade.fetch(:timestamp).to_i
         timestamp <= until_range && timestamp > since_range 
       end
 
@@ -54,21 +54,21 @@ class ExchangeTrade
   end
 
   def get_candles(unit: 1.minute)
-    grouped_rates = get_rates_group_by(unit: unit)
+    grouped_trades = get_trades_group_by(unit: unit)
 
-    grouped_rates.map do |until_range, group|
+    grouped_trades.map do |until_range, group|
       next nil if group.empty?
 
       {
         timestamp: until_range,
-        avg_price: (group.sum { |rate| rate.fetch(:price).to_d } / group.size).round(1),
-        max_price: group.map { |rate| rate.fetch(:price).to_d }.max,
-        min_price: group.map { |rate| rate.fetch(:price).to_d }.min,
-        open_price: group.min { |rate| rate.fetch(:id).to_i }.fetch(:price),
-        close_price: group.max { |rate| rate.fetch(:id).to_i }.fetch(:price),
-        volume: group.sum { |rate| rate[:amount].to_d },
-        _volume_sell: group.select { |rate| rate.fetch(:side) == "sell" }.sum { |rate| rate[:amount].to_d },
-        _volume_buy: group.select { |rate| rate.fetch(:side) == "buy" }.sum { |rate| rate[:amount].to_d },
+        avg_price: (group.sum { |trade| trade.fetch(:price).to_d } / group.size).round(1),
+        max_price: group.map { |trade| trade.fetch(:price).to_d }.max,
+        min_price: group.map { |trade| trade.fetch(:price).to_d }.min,
+        open_price: group.min { |trade| trade.fetch(:id).to_i }.fetch(:price),
+        close_price: group.max { |trade| trade.fetch(:id).to_i }.fetch(:price),
+        volume: group.sum { |trade| trade[:amount].to_d },
+        _volume_sell: group.select { |trade| trade.fetch(:side) == "sell" }.sum { |trade| trade[:amount].to_d },
+        _volume_buy: group.select { |trade| trade.fetch(:side) == "buy" }.sum { |trade| trade[:amount].to_d },
         _time: Time.zone.at(until_range),
         _sample: group.size,
       }
