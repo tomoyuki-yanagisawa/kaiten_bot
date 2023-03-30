@@ -33,7 +33,7 @@ class ExchangeTrade
     list.sort_by! { |item| [-item.fetch(:timestamp).to_i, -item.fetch(:id).to_i] }
   end
 
-  def get_grouped_rates(unit: 1.minute)
+  def get_rates_group_by(unit: 1.minute)
     target_rates = get_rates
 
     since_time = target_rates.map { |rate| rate.fetch(:timestamp) }.min.to_i
@@ -50,9 +50,9 @@ class ExchangeTrade
   end
 
   def get_candles(unit: 1.minute)
-    groupd_rates = get_grouped_rates(unit: unit)
+    grouped_rates = get_rates_group_by(unit: unit)
 
-    groupd_rates.map do |until_range, group|
+    grouped_rates.map do |until_range, group|
       next nil if group.empty?
 
       {
