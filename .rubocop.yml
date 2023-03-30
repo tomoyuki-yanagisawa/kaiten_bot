@@ -3,6 +3,7 @@ AllCops:
 GlobalVars:
   AllowedVariables:
     - $config
+    - $logger
 Style/FrozenStringLiteralComment:
   Enabled: false
 Style/TrailingCommaInArrayLiteral:
