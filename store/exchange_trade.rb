@@ -63,11 +63,10 @@ class ExchangeTrade
 
       {
         timestamp: until_range,
-        avg_price: (group.sum { |trade| trade.fetch(:price).to_d } / group.size).round(1),
-        max_price: group.map { |trade| trade.fetch(:price).to_d }.max,
-        min_price: group.map { |trade| trade.fetch(:price).to_d }.min,
-        open_price: group.min_by { |trade| trade.fetch(:id).to_i }.fetch(:price),
-        close_price: group.max_by { |trade| trade.fetch(:id).to_i }.fetch(:price),
+        h_price: group.map { |trade| trade.fetch(:price).to_d }.max,
+        l_price: group.map { |trade| trade.fetch(:price).to_d }.min,
+        o_price: group.min_by { |trade| trade.fetch(:id).to_i }.fetch(:price),
+        c_price: group.max_by { |trade| trade.fetch(:id).to_i }.fetch(:price),
         volume: group.sum { |trade| trade[:amount].to_d },
         _volume_sell: group.select { |trade| trade.fetch(:side) == "sell" }.sum { |trade| trade[:amount].to_d },
         _volume_buy: group.select { |trade| trade.fetch(:side) == "buy" }.sum { |trade| trade[:amount].to_d },
