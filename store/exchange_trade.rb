@@ -66,16 +66,13 @@ class ExchangeTrade
 
       {
         timestamp: until_range,
-        h_price: group.map { |trade| trade.fetch(:price) }.max,
-        l_price: group.map { |trade| trade.fetch(:price) }.min,
-        o_price: group.min_by { |trade| trade.fetch(:id) }.fetch(:price),
-        c_price: group.max_by { |trade| trade.fetch(:id) }.fetch(:price),
-        volume: group.sum { |trade| trade[:amount] },
-        _volume_sell: group.select { |trade| trade.fetch(:side) == "sell" }.sum { |trade| trade[:amount] },
-        _volume_buy: group.select { |trade| trade.fetch(:side) == "buy" }.sum { |trade| trade[:amount] },
         _time: Time.zone.at(until_range),
         _sample: group.size,
-      }
+      }.merge!(
+        transform_group_price(group)
+      ).merge!(
+        transform_group_volume(group)
+      )
     end
   end
 
@@ -83,5 +80,22 @@ class ExchangeTrade
 
   def transform_trade(item)
     item.symbolize_keys!.except!(:_id).merge! item.slice(*DECIMAL_KEYS).transform_values(&:to_d)
+  end
+
+  def transform_group_volume(group)
+    {
+      volume: group.sum { |trade| trade[:amount] },
+      _volume_sell: group.select { |trade| trade.fetch(:side) == "sell" }.sum { |trade| trade[:amount] },
+      _volume_buy: group.select { |trade| trade.fetch(:side) == "buy" }.sum { |trade| trade[:amount] },
+    }
+  end
+
+  def transform_group_price(group)
+    {
+      h_price: group.map { |trade| trade.fetch(:price) }.max,
+      l_price: group.map { |trade| trade.fetch(:price) }.min,
+      o_price: group.min_by { |trade| trade.fetch(:id) }.fetch(:price),
+      c_price: group.max_by { |trade| trade.fetch(:id) }.fetch(:price),
+    }
   end
 end
