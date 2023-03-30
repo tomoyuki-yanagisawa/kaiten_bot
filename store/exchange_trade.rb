@@ -34,6 +34,12 @@ class ExchangeTrade
     list = collection.find(query).map do |item|
       item.to_h.symbolize_keys!.except(:_id)
     end
+
+    list.each do |item|
+      item[:price] = item[:price].to_d
+      item[:amount] = item[:amount].to_d
+    end
+
     list.sort_by! { |item| [-item.fetch(:timestamp), -item.fetch(:id)] }
   end
 
@@ -63,13 +69,13 @@ class ExchangeTrade
 
       {
         timestamp: until_range,
-        h_price: group.map { |trade| trade.fetch(:price).to_d }.max,
-        l_price: group.map { |trade| trade.fetch(:price).to_d }.min,
+        h_price: group.map { |trade| trade.fetch(:price) }.max,
+        l_price: group.map { |trade| trade.fetch(:price) }.min,
         o_price: group.min_by { |trade| trade.fetch(:id) }.fetch(:price),
         c_price: group.max_by { |trade| trade.fetch(:id) }.fetch(:price),
-        volume: group.sum { |trade| trade[:amount].to_d },
-        _volume_sell: group.select { |trade| trade.fetch(:side) == "sell" }.sum { |trade| trade[:amount].to_d },
-        _volume_buy: group.select { |trade| trade.fetch(:side) == "buy" }.sum { |trade| trade[:amount].to_d },
+        volume: group.sum { |trade| trade[:amount] },
+        _volume_sell: group.select { |trade| trade.fetch(:side) == "sell" }.sum { |trade| trade[:amount] },
+        _volume_buy: group.select { |trade| trade.fetch(:side) == "buy" }.sum { |trade| trade[:amount] },
         _time: Time.zone.at(until_range),
         _sample: group.size,
       }
