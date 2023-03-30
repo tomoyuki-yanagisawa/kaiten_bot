@@ -2,8 +2,6 @@ require_relative "../boot"
 
 $stdout.sync = true
 
-$logger = Logger.new($stdout)
-
 _terminate = ENV["TERMINATE"] || false
 
 Signal.trap(:INT) { _terminate = true }

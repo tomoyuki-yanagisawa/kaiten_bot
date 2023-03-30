@@ -6,6 +6,7 @@ require "active_support/all"
 require "bigdecimal/util"
 
 $config = YAML.load(ERB.new(File.read("./config.yml")).result)
+$logger = Logger.new($stdout)
 
 Time.zone = "Tokyo"
 
