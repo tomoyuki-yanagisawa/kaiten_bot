@@ -16,7 +16,7 @@ class ExchangeTrade
     @driver[@prefix].indexes.create_one({ timestamp: 1 })
   end
 
-  def save_trade(item, expire: 3.day)
+  def save_trade(item)
     collection = @driver[@prefix]
     collection.update_one(item.slice(:id), { "$setOnInsert" => item.slice(*ALLOW_KEYS) }, upsert: true)
   end
