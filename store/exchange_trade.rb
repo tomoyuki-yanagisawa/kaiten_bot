@@ -34,7 +34,7 @@ class ExchangeTrade
     list = collection.find(query).map do |item|
       item.to_h.symbolize_keys!.except(:_id)
     end
-    list.sort_by! { |item| [-item.fetch(:timestamp).to_i, -item.fetch(:id).to_i] }
+    list.sort_by! { |item| [-item.fetch(:timestamp), -item.fetch(:id)] }
   end
 
   def get_trades_group_by(unit: 1.minute)
@@ -65,8 +65,8 @@ class ExchangeTrade
         timestamp: until_range,
         h_price: group.map { |trade| trade.fetch(:price).to_d }.max,
         l_price: group.map { |trade| trade.fetch(:price).to_d }.min,
-        o_price: group.min_by { |trade| trade.fetch(:id).to_i }.fetch(:price),
-        c_price: group.max_by { |trade| trade.fetch(:id).to_i }.fetch(:price),
+        o_price: group.min_by { |trade| trade.fetch(:id) }.fetch(:price),
+        c_price: group.max_by { |trade| trade.fetch(:id) }.fetch(:price),
         volume: group.sum { |trade| trade[:amount].to_d },
         _volume_sell: group.select { |trade| trade.fetch(:side) == "sell" }.sum { |trade| trade[:amount].to_d },
         _volume_buy: group.select { |trade| trade.fetch(:side) == "buy" }.sum { |trade| trade[:amount].to_d },
