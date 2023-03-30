@@ -1,7 +1,7 @@
 module Coincheck
   module Client
     class Public
-      URL = "https://coincheck.com"
+      URL = "https://coincheck.com".freeze
 
       def initialize
         @conn = Faraday.new(url: URL, headers: { "Content-Type" => "application/json" }) do |config|

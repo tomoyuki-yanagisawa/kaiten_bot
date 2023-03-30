@@ -11,13 +11,13 @@ module Coincheck
 
         {
           success: true,
-          pair: pair,
-          rate: json.fetch("rate")
+          pair:,
+          rate: json.fetch("rate"),
         }
       else
         {
           success: false,
-          code: res.status
+          code: res.status,
         }
       end
     end

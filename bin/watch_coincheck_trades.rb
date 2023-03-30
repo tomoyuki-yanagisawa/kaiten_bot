@@ -2,7 +2,7 @@ require_relative "../boot"
 
 $stdout.sync = true
 
-$logger = Logger.new(STDOUT)
+$logger = Logger.new($stdout)
 
 _terminate = ENV["TERMINATE"] || false
 
@@ -32,7 +32,7 @@ loop do
   etime = Time.zone.now
 
   spent_sec = etime.to_f - stime.to_f
-  error_sec = rand(-INTERVAL_ERROR_MILI_SEC..INTERVAL_ERROR_MILI_SEC) / 10**3
-  sleep_sec = INTERVAL_CONST_MILI_SEC.to_f / 10**3 - spent_sec + error_sec
+  error_sec = rand(-INTERVAL_ERROR_MILI_SEC..INTERVAL_ERROR_MILI_SEC) / (10**3)
+  sleep_sec = (INTERVAL_CONST_MILI_SEC.to_f / (10**3)) - spent_sec + error_sec
   sleep(sleep_sec) if sleep_sec.positive?
 end

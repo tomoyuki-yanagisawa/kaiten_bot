@@ -1,24 +1,24 @@
 class ExchangeTrade
-  ALLOW_KEYS = %i(
+  ALLOW_KEYS = %i[
     id
     pair
     price
     amount
     side
     timestamp
-  )
+  ].freeze
 
   def initialize(driver, exchange:)
     @driver = driver
     @exchange = exchange
-    @prefix = "trade:#@exchange"
+    @prefix = "trade:#{@exchange}"
     @driver[@prefix].indexes.create_one({ id: 1 }, unique: true)
     @driver[@prefix].indexes.create_one({ timestamp: 1 })
   end
 
   def save_trade(item, expire: 3.day)
     collection = @driver[@prefix]
-    collection.update_one(item.slice(:id), { '$setOnInsert' => item.slice(*ALLOW_KEYS) }, upsert: true)
+    collection.update_one(item.slice(:id), { "$setOnInsert" => item.slice(*ALLOW_KEYS) }, upsert: true)
   end
 
   def get_trades(current_time: Time.zone.now, duration: 60.minutes)
@@ -26,9 +26,9 @@ class ExchangeTrade
 
     query = {
       timestamp: {
-        '$gt' => (current_time - duration).to_i,
-        '$lte' => current_time.to_i,
-      }
+        "$gt" => (current_time - duration).to_i,
+        "$lte" => current_time.to_i,
+      },
     }
 
     list = collection.find(query).map do |item|
@@ -46,7 +46,7 @@ class ExchangeTrade
     until_time.step(to: since_time, by: -unit.to_i).each_cons(2).map do |until_range, since_range|
       group = target_trades.select do |trade|
         timestamp = trade.fetch(:timestamp).to_i
-        timestamp <= until_range && timestamp > since_range 
+        timestamp <= until_range && timestamp > since_range
       end
 
       [until_range, group]
@@ -54,7 +54,7 @@ class ExchangeTrade
   end
 
   def get_candles(unit: 1.minute)
-    grouped_trades = get_trades_group_by(unit: unit)
+    grouped_trades = get_trades_group_by(unit:)
 
     grouped_trades.map do |until_range, group|
       next nil if group.empty?
