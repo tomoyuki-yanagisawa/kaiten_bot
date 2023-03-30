@@ -1,4 +1,4 @@
 require_relative "../../boot"
 
-client = Redis.new(url: $config["store"]["redis_url"])
-puts ExchangeTrade.new(client, exchange: :coincheck).get_rates.to_json
+driver = Mongo::Client.new($config.dig("store", "mongo_url"))
+puts ExchangeTrade.new(driver, exchange: :coincheck).get_rates.to_json
