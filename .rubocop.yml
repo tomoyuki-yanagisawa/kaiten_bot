@@ -1,3 +1,5 @@
+AllCops:
+  NewCops: enable
 GlobalVars:
   AllowedVariables:
     - $config
