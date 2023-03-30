@@ -9,3 +9,7 @@ gem "net-http-persistent"
 gem "redis"
 gem "mongo", "~> 2.0"
 gem "foreman"
+
+group :development do
+  gem "rubocop", require: false
+end
