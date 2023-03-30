@@ -46,6 +46,8 @@ jobs:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Pwd
       run: pwd
+    - name: ls
+      run: ls
     - name: Run rubocop
       run: bundle exec rubocop **/*.rb
     - name: Run tests
