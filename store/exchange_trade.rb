@@ -12,6 +12,8 @@ class ExchangeTrade
     @driver = driver
     @exchange = exchange
     @prefix = "trade:#@exchange"
+    @driver[@prefix].indexes.create_one({ id: 1 }, unique: true)
+    @driver[@prefix].indexes.create_one({ timestamp: 1 })
   end
 
   def save_rate(item, expire: 3.day)
