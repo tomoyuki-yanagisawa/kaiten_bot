@@ -1,0 +1,11 @@
+GlobalVars:
+  AllowedVariables:
+    - $config
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
