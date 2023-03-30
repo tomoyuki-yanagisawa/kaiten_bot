@@ -40,12 +40,14 @@ class ExchangeTrade
   def get_trades_group_by(unit: 1.minute)
     target_trades = get_trades
 
-    since_time = target_trades.map { |trade| trade.fetch(:timestamp) }.min.to_i
-    until_time = target_trades.map { |trade| trade.fetch(:timestamp) }.max.to_i
+    timestamp_list = target_trades.map { |trade| trade.fetch(:timestamp) }
+
+    since_time = timestamp_list.min
+    until_time = timestamp_list.max
 
     until_time.step(to: since_time, by: -unit.to_i).each_cons(2).map do |until_range, since_range|
       group = target_trades.select do |trade|
-        timestamp = trade.fetch(:timestamp).to_i
+        timestamp = trade.fetch(:timestamp)
         timestamp <= until_range && timestamp > since_range
       end
 
