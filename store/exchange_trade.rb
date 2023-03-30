@@ -36,10 +36,7 @@ class ExchangeTrade
       },
     }
 
-    list = collection.find(query).map(&:to_h).map do |item|
-      item.symbolize_keys!.except!(:_id).merge! item.slice(*DECIMAL_KEYS).transform_values(&:to_d)
-    end
-
+    list = collection.find(query).map(&:to_h).map(&method(:transform_trade))
     list.sort_by! { |item| [-item.fetch(:timestamp), -item.fetch(:id)] }
   end
 
@@ -80,5 +77,11 @@ class ExchangeTrade
         _sample: group.size,
       }
     end
+  end
+
+  private
+
+  def transform_trade(item)
+    item.symbolize_keys!.except!(:_id).merge! item.slice(*DECIMAL_KEYS).transform_values(&:to_d)
   end
 end
