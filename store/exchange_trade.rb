@@ -30,7 +30,7 @@ class ExchangeTrade
     collection.update_one(item.slice(:id), { "$setOnInsert" => item.slice(*ALLOW_KEYS) }, upsert: true)
   end
 
-  def get_trades(current_time: Time.zone.now, duration: 60.minutes)
+  def get_trades(current_time: Time.zone.now, duration: 3.hours)
     collection = @driver[@prefix]
 
     query = {
