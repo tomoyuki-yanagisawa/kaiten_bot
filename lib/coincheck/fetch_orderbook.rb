@@ -14,8 +14,8 @@ module Coincheck
         {
           success: true,
           orderbook: {
-            asks: json["asks"].map(&method(:transform_order)).sort_by { |order| -order[:price] },
-            bids: json["bids"].map(&method(:transform_order)).sort_by { |order| -order[:price] },
+            asks: transform_order_list(json["asks"]),
+            bids: transform_order_list(json["bids"]),
           },
         }
       else
@@ -24,6 +24,10 @@ module Coincheck
           code: res.status,
         }
       end
+    end
+
+    def transform_order_list(list)
+      list.map(&method(:transform_order)).sort_by { |order| -order[:price] }
     end
 
     def transform_order(order)
