@@ -17,6 +17,10 @@ class ExchangeTrade
     @driver = driver
     @exchange = exchange
     @prefix = "trade:#{@exchange}"
+    create_index
+  end
+
+  def create_index
     @driver[@prefix].indexes.create_one({ id: 1 }, unique: true)
     @driver[@prefix].indexes.create_one({ timestamp: 1 })
   end
