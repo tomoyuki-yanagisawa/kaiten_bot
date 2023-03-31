@@ -16,6 +16,10 @@ module Coincheck
       def trades(**args)
         @conn.get("/api/trades", args)
       end
+
+      def order_books(**args)
+        @conn.get("/api/order_books", args)
+      end
     end
   end
 end
