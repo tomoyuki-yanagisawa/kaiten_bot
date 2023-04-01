@@ -18,7 +18,7 @@ store = ExchangeTrade.new(driver, exchange: :coincheck)
 loop do
   stime = Time.zone.now
 
-  trade = Coincheck::Action::FetchTrade.request(client, pair: pair)
+  trade = Coincheck::Action::FetchTrade.request(client, pair:)
 
   $logger.info trade[:list].first
 
