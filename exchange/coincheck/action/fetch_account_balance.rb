@@ -14,10 +14,7 @@ module Coincheck::Action
           balance: transform_balance(json.except("success")),
         }
       else
-        {
-          success: false,
-          code: res.status,
-        }
+        Coincheck::Action.parse_error(res)
       end
     end
 

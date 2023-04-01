@@ -16,10 +16,7 @@ module Coincheck::Action
           list: json["data"].map(&method(:format_data_item)),
         }
       else
-        {
-          success: false,
-          code: res.status,
-        }
+        Coincheck::Action.parse_error(res)
       end
     end
 

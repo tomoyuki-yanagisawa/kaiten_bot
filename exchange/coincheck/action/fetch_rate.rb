@@ -15,10 +15,7 @@ module Coincheck::Action
           rate: BigDecimal(json.fetch("rate")),
         }
       else
-        {
-          success: false,
-          code: res.status,
-        }
+        Coincheck::Action.parse_error(res)
       end
     end
   end
