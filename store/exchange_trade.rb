@@ -51,6 +51,8 @@ class ExchangeTrade
   def get_trades_group_by(unit: 1.minute)
     target_trades = get_trades
 
+    return [] unless target_trades.present?
+
     timestamp_list = target_trades.map { |trade| trade.fetch(:timestamp) }
 
     since_time = timestamp_list.min
