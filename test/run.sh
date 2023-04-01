@@ -12,3 +12,4 @@ ruby cli/coincheck/fetch_trade_list_cli.rb xxx_yyy | jq
 bash `dirname $0`/../cmd/rate.sh coincheck
 bash `dirname $0`/../cmd/trade_list.sh coincheck
 bash `dirname $0`/../cmd/orderbook.sh coincheck
+bash `dirname $0`/../cmd/account_balance.sh coincheck
