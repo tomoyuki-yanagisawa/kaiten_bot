@@ -13,6 +13,7 @@ ruby script/coincheck/get_trade_list_cli.rb xxx_yyy | jq
 
 ruby script/coincheck/fetch_rate_cli.rb xxx_yyy | jq
 ruby script/coincheck/fetch_trade_list_cli.rb xxx_yyy | jq
+ruby script/coincheck/fetch_orderbook_cli.rb xxx_yyy | jq # ペアがない時は空になる
 
 bash `dirname $0`/../cmd/rate.sh coincheck btc_jpy
 bash `dirname $0`/../cmd/rate.sh coincheck lsk_jpy
