@@ -16,10 +16,6 @@ Dir[File.join(__dir__, "exchange", "**", "*.rb")].each do |file|
   require file
 end
 
-Dir[File.join(__dir__, "lib", "**", "*.rb")].each do |file|
-  require file
-end
-
 Dir[File.join(__dir__, "store", "**", "*.rb")].each do |file|
   require file
 end
