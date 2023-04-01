@@ -12,7 +12,7 @@ $logger = Logger.new($stdout)
 
 Time.zone = "Tokyo"
 
-Dir[File.join(__dir__, "apis", "**", "*.rb")].each do |file|
+Dir[File.join(__dir__, "exchange", "**", "*.rb")].each do |file|
   require file
 end
 
