@@ -24,6 +24,8 @@ module Coincheck::Action
       {
         id: order.fetch("id"),
         side: order.fetch("order_type").split("_").last,
+        pair: order.fetch("pair"),
+        price: order.fetch("rate").to_d,
         timestamp: time.to_i,
         timestamp_jst: time,
       }
