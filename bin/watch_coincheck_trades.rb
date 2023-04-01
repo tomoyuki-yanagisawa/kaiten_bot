@@ -3,6 +3,7 @@ require_relative "../boot"
 $stdout.sync = true
 
 _terminate = ENV["TERMINATE"] || false
+pair = ARGV.fetch(0)
 
 Signal.trap(:INT) { _terminate = true }
 
@@ -17,7 +18,7 @@ store = ExchangeTrade.new(driver, exchange: :coincheck)
 loop do
   stime = Time.zone.now
 
-  trade = Coincheck::Action::FetchTrade.request(client, pair: "btc_jpy")
+  trade = Coincheck::Action::FetchTrade.request(client, pair: pair)
 
   $logger.info trade[:list].first
 

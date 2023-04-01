@@ -1,1 +1,2 @@
-watch_coincheck_trade: ruby bin/watch_coincheck_trades.rb
+watch_coincheck_trade_btc_jpy: ruby bin/watch_coincheck_trades.rb btc_jpy
+watch_coincheck_trade_lsk_jpy: ruby bin/watch_coincheck_trades.rb lsk_jpy
