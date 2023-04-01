@@ -1,1 +1,5 @@
-ruby cli/coincheck/fetch_rate_cli.rb btc_jpy | jq '.rate'
+set -u
+
+EXCHANGE=$1
+
+ruby cli/${EXCHANGE}/fetch_rate_cli.rb btc_jpy | jq '.rate'
