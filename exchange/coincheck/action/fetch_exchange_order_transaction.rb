@@ -25,6 +25,8 @@ module Coincheck::Action
         id: txn.fetch("id"),
         order_id: txn.fetch("order_id"),
         side: txn.fetch("side"),
+        pair: txn.fetch("pair"),
+        price: txn.fetch("rate").to_d,
         timestamp: time.to_i,
         timestamp_jst: time,
       }
