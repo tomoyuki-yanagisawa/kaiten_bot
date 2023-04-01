@@ -1,4 +1,4 @@
-module Coincheck
+module Coincheck::Action
   module FetchAccountBalance
     module_function
 

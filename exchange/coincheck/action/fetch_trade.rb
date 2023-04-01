@@ -1,4 +1,4 @@
-module Coincheck
+module Coincheck::Action
   module FetchTrade
     module_function
 

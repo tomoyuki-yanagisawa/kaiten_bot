@@ -1,4 +1,4 @@
-module Coincheck
+module Coincheck::Action
   module FetchOrderbook
     module_function
 
