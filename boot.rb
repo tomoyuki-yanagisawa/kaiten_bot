@@ -12,10 +12,10 @@ $logger = Logger.new($stdout)
 
 Time.zone = "Tokyo"
 
-Dir[File.join(__dir__, "exchange", "**", "*.rb")].each do |file|
+Dir[File.join(__dir__, "exchange", "**", "*.rb")].sort_by(&:itself).each do |file|
   require file
 end
 
-Dir[File.join(__dir__, "store", "**", "*.rb")].each do |file|
+Dir[File.join(__dir__, "store", "**", "*.rb")].sort_by(&:itself).each do |file|
   require file
 end
