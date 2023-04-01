@@ -1,1 +1,1 @@
-find . -path "./vendor" -prune -o -name "*.rb" | xargs bundle exec rubocop
+find . -path "./vendor" -prune -o -name "*.rb" | xargs bundle exec rubocop $@
