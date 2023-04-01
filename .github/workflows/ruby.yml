@@ -18,6 +18,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    environment: CI
     strategy:
       matrix:
         ruby-version: ['3.1.3']
