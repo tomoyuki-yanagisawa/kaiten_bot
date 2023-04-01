@@ -12,7 +12,7 @@ module Coincheck
         {
           success: true,
           pair:,
-          rate: json.fetch("rate"),
+          rate: BigDecimal(json.fetch("rate")),
         }
       else
         {
