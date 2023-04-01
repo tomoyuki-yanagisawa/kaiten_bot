@@ -1,4 +1,4 @@
-set -e
+set -eu
 set -o pipefail
 
 TERMINATE=true ruby bin/watch_coincheck_trades.rb btc_jpy

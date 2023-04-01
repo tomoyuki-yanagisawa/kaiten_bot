@@ -1,4 +1,5 @@
-set -u
+set -eu
+set -o pipefail
 
 EXCHANGE=$1
 PAIR=$2
