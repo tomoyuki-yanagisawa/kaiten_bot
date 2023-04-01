@@ -13,9 +13,10 @@ class ExchangeTrade
     amount
   ].freeze
 
-  def initialize(driver, exchange:)
+  def initialize(driver, exchange:, pair:)
     @driver = driver
     @exchange = exchange
+    @pair = pair
     @prefix = "trade:#{@exchange}"
     create_index
   end
@@ -26,6 +27,8 @@ class ExchangeTrade
   end
 
   def save_trade(item)
+    raise ArgumentError, "invalid pair" unless item[:pair] == @pair
+
     collection = @driver[@prefix]
     collection.update_one(item.slice(:id), { "$setOnInsert" => item.slice(*ALLOW_KEYS) }, upsert: true)
   end
@@ -34,6 +37,7 @@ class ExchangeTrade
     collection = @driver[@prefix]
 
     query = {
+      pair: @pair,
       timestamp: {
         "$gt" => (current_time - duration).to_i,
         "$lte" => current_time.to_i,

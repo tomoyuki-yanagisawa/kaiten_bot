@@ -13,7 +13,7 @@ INTERVAL_ERROR_MILI_SEC = 5
 client = Coincheck::Client::Public.new
 driver = Mongo::Client.new($config.dig("store", "mongo_url"))
 
-store = ExchangeTrade.new(driver, exchange: :coincheck)
+store = ExchangeTrade.new(driver, exchange: :coincheck, pair:)
 
 loop do
   stime = Time.zone.now
