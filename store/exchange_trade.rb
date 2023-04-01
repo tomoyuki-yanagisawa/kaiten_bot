@@ -83,7 +83,8 @@ class ExchangeTrade
   private
 
   def transform_trade(item)
-    item.symbolize_keys!.except!(:_id).merge! item.slice(*DECIMAL_KEYS).transform_values(&:to_s).transform_values(&:to_d)
+    res = item.symbolize_keys.except!(:_id)
+    res.merge! res.slice(*DECIMAL_KEYS).transform_values(&:to_s).transform_values(&:to_d)
   end
 
   def transform_group_volume(group)
