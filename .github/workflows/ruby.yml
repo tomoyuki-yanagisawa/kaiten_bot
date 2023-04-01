@@ -47,6 +47,8 @@ jobs:
       run: bash test/run.sh
       env:
         STORE_REDIS_URL: redis://localhost/1
+        _COINCHECK_APIKEY: ${{ secrets._COINCHECK_APIKEY }}
+        _COINCHECK_SECRET: ${{ secrets._COINCHECK_SECRET }}
 
   lint:
     runs-on: ubuntu-latest
