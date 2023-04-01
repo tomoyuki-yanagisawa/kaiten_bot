@@ -6,6 +6,8 @@ GlobalVars:
     - $logger
 Style/Documentation:
   Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
 Lint/UnderscorePrefixedVariableName:
   Enabled: false
 Metrics/MethodLength:
