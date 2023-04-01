@@ -14,6 +14,30 @@ module Coincheck::Client
       end
     end
 
+    def exchange_orders_opens(**args)
+      @conn.get("/api/exchange/orders/opens", args) do |req|
+        req.headers.merge! calc_access_header(req.path, req.body)
+      end
+    end
+
+    def exchange_orders_transactions(**args)
+      @conn.get("/api/exchange/orders/transactions", args) do |req|
+        req.headers.merge! calc_access_header(req.path, req.body)
+      end
+    end
+
+    def post_exchange_orders(**args)
+      @conn.post("/api/exchange/orders", args.to_json) do |req|
+        req.headers.merge! calc_access_header(req.path, req.body)
+      end
+    end
+
+    def delete_exchange_orders(id)
+      @conn.delete("/api/exchange/orders/#{id}") do |req|
+        req.headers.merge! calc_access_header(req.path, req.body)
+      end
+    end
+
     private
 
     def calc_access_header(path, body)
