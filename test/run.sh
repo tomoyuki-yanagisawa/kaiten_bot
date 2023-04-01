@@ -17,3 +17,4 @@ bash `dirname $0`/../cmd/trade_list.sh coincheck lsk_jpy
 bash `dirname $0`/../cmd/orderbook.sh coincheck btc_jpy
 bash `dirname $0`/../cmd/orderbook.sh coincheck lsk_jpy
 bash `dirname $0`/../cmd/account_balance.sh coincheck
+bash `dirname $0`/../cmd/exchange_order_transaction_list.sh coincheck
