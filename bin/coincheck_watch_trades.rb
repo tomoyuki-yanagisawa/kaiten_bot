@@ -18,7 +18,17 @@ store = ExchangeTrade.new(driver, exchange: :coincheck, pair:)
 Helper.loop_duration(interval_const_msec: INTERVAL_CONST_MILI_SEC, interval_error_msec: INTERVAL_ERROR_MILI_SEC) do
   trade = Coincheck::Action::FetchTrade.request(client, pair:)
 
-  $logger.info trade[:list].first
+  last_trade = trade.fetch(:list).first
+
+  row = [
+    Time.zone.at(last_trade.fetch(:timestamp)),
+    last_trade.fetch(:pair),
+    Helper.format_decimal(last_trade.fetch(:price), 12),
+    Helper.format_decimal(last_trade.fetch(:amount), 8),
+    last_trade.fetch(:side),
+  ]
+
+  $logger.info row.join("\t")
 
   trade[:list].reverse.each do |item|
     store.save_trade(item)

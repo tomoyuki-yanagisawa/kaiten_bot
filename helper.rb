@@ -1,6 +1,17 @@
 module Helper
   module_function
 
+  def format_decimal(decimal, length, signed: false, symbol: "")
+    return nil if decimal.nil?
+
+    int_size = decimal.abs.to_s.split(".").first.size
+    frac_size = [length - int_size, 0].max
+
+    signed_flag = signed ? "+" : ""
+
+    format("%#{signed_flag}.#{frac_size}f", decimal) + symbol
+  end
+
   def loop_duration(**args, &block)
     loop do
       stime = Time.zone.now
