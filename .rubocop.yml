@@ -12,6 +12,8 @@ Lint/UnderscorePrefixedVariableName:
   Enabled: false
 Metrics/MethodLength:
   Enabled: false
+Metrics/AbcSize:
+  Max: 18
 Style/FrozenStringLiteralComment:
   Enabled: false
 Style/TrailingCommaInArrayLiteral:
