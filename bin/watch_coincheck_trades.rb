@@ -7,7 +7,7 @@ pair = ARGV.fetch(0)
 
 Signal.trap(:INT) { _terminate = true }
 
-INTERVAL_CONST_MILI_SEC = 300
+INTERVAL_CONST_MILI_SEC = 500
 INTERVAL_ERROR_MILI_SEC = 5
 
 client = Coincheck::Client::Public.new
