@@ -1,7 +1,7 @@
 class ExchangeTrade
   EXCHANGE_NAME_LIST = %i[
     coincheck
-  ]
+  ].freeze
 
   ALLOW_KEYS = %i[
     id
