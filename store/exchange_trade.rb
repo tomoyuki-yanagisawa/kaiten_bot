@@ -1,4 +1,8 @@
 class ExchangeTrade
+  EXCHANGE_NAME_LIST = %i[
+    coincheck
+  ]
+
   ALLOW_KEYS = %i[
     id
     pair
@@ -14,10 +18,11 @@ class ExchangeTrade
   ].freeze
 
   def initialize(driver, exchange:, pair:)
+    raise "invalid exchange" unless EXCHANGE_NAME_LIST.include?(exchange.to_sym)
+
     @driver = driver
-    @exchange = exchange
     @pair = pair
-    @prefix = "trade:#{@exchange}"
+    @prefix = "trade:#{exchange}"
     create_index
   end
 
