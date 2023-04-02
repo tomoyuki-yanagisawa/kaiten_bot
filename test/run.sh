@@ -1,8 +1,8 @@
 set -eu
 set -o pipefail
 
-TERMINATE=true ruby bin/watch_coincheck_trades.rb btc_jpy
-TERMINATE=true ruby bin/watch_coincheck_trades.rb lsk_jpy
+TERMINATE=true ruby bin/coincheck_watch_trades.rb btc_jpy
+TERMINATE=true ruby bin/coincheck_watch_trades.rb lsk_jpy
 
 ruby script/coincheck/get_trade_list_cli.rb btc_jpy | jq '.[0:2]'
 ruby script/coincheck/get_trade_list_cli.rb lsk_jpy | jq '.[0:2]'
