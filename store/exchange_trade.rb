@@ -17,6 +17,11 @@ class ExchangeTrade
     amount
   ].freeze
 
+  def self.build(**args)
+    driver = Mongo::Client.new($config.dig("store", "mongo_url"))
+    new(driver, **args)
+  end
+
   def initialize(driver, exchange:, pair:)
     raise "invalid exchange" unless EXCHANGE_NAME_LIST.include?(exchange.to_sym)
 

@@ -11,9 +11,8 @@ INTERVAL_CONST_MILI_SEC = 500
 INTERVAL_ERROR_MILI_SEC = 5
 
 client = Coincheck::Client::Public.new
-driver = Mongo::Client.new($config.dig("store", "mongo_url"))
 
-store = ExchangeTrade.new(driver, exchange: :coincheck, pair:)
+store = ExchangeTrade.build(exchange: :coincheck, pair:)
 
 Helper.loop_duration(interval_const_msec: INTERVAL_CONST_MILI_SEC, interval_error_msec: INTERVAL_ERROR_MILI_SEC) do
   trade = Coincheck::Action::FetchTrade.request(client, pair:)
