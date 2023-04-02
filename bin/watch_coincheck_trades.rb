@@ -15,9 +15,7 @@ driver = Mongo::Client.new($config.dig("store", "mongo_url"))
 
 store = ExchangeTrade.new(driver, exchange: :coincheck, pair:)
 
-loop do
-  stime = Time.zone.now
-
+Helper.loop_duration(interval_const_msec: INTERVAL_CONST_MILI_SEC, interval_error_msec: INTERVAL_ERROR_MILI_SEC) do
   trade = Coincheck::Action::FetchTrade.request(client, pair:)
 
   $logger.info trade[:list].first
@@ -26,12 +24,5 @@ loop do
     store.save_trade(item)
   end
 
-  break if _terminate
-
-  etime = Time.zone.now
-
-  spent_sec = etime.to_f - stime.to_f
-  error_sec = rand(-INTERVAL_ERROR_MILI_SEC..INTERVAL_ERROR_MILI_SEC) / (10**3)
-  sleep_sec = (INTERVAL_CONST_MILI_SEC.to_f / (10**3)) - spent_sec + error_sec
-  sleep(sleep_sec) if sleep_sec.positive?
+  !_terminate
 end

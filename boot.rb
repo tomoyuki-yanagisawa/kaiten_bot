@@ -19,3 +19,5 @@ end
 Dir[File.join(__dir__, "store", "**", "*.rb")].sort_by(&:itself).each do |file|
   require file
 end
+
+require "./helper"
