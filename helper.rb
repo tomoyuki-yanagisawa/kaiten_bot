@@ -1,6 +1,24 @@
 module Helper
   module_function
 
+  def calc_candle_diff_persent(*args, **opts)
+    rate = calc_candle_diff_rate(*args, **opts)
+
+    return nil unless rate
+
+    rate * 100
+  end
+
+  def calc_candle_diff_rate(candles, name, offset: 0, step: 1)
+    new_candle = candles[offset]
+    old_candle = candles[offset + step]
+
+    return nil unless new_candle
+    return nil unless old_candle
+
+    (new_candle.fetch(name) / old_candle.fetch(name)) - 1
+  end
+
   def format_decimal(decimal, length, signed: false, symbol: "")
     return nil if decimal.nil?
 
