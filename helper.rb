@@ -1,6 +1,21 @@
 module Helper
   module_function
 
+  def calc_item_diff_persent(*args)
+    rate = calc_item_diff_rate(*args)
+
+    return nil unless rate
+
+    rate * 100
+  end
+
+  def calc_item_diff_rate(new_item, old_item, name)
+    return nil unless new_item
+    return nil unless old_item
+
+    (new_item.fetch(name) / old_item.fetch(name)) - 1
+  end
+
   def calc_candle_diff_persent(*args, **opts)
     rate = calc_candle_diff_rate(*args, **opts)
 
@@ -13,10 +28,7 @@ module Helper
     new_candle = candles[offset]
     old_candle = candles[offset + step]
 
-    return nil unless new_candle
-    return nil unless old_candle
-
-    (new_candle.fetch(name) / old_candle.fetch(name)) - 1
+    calc_item_diff_rate(new_candle, old_candle, name)
   end
 
   def format_decimal(decimal, length, signed: false, symbol: "")
