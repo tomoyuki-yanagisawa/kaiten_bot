@@ -96,6 +96,20 @@ class ExchangeTrade
     end
   end
 
+  def get_moving_avg_points(unit: 1.minute)
+    grouped_trades = get_trades_group_by(unit:)
+
+    grouped_trades.map do |timestamp, group|
+      weited_price = group.map { |trade| trade.fetch(:amount) * trade.fetch(:price) }.sum
+      total_amount = group.map { |trade| trade.fetch(:amount) }.sum
+
+      {
+        timestamp:,
+        price: total_amount.zero? ? nil : weited_price / total_amount,
+      }
+    end
+  end
+
   private
 
   def transform_trade(item)
