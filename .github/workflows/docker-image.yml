@@ -19,16 +19,18 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Auth GCP
+    - id: auth
+      name: Auth GCP
       uses: google-github-actions/auth@v1
       with:
         credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v1
-
-    - name: Authorize Docker push
-      run: gcloud auth configure-docker $DOCKER_REGISTRY
+    - name: Login to Artifact Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ env.DOCKER_REGISTRY }}
+        username: oauth2accesstoken
+        password: ${{ steps.auth.outputs.access_token }}
 
     - name: Docker Build and push
       uses: docker/build-push-action@v4
