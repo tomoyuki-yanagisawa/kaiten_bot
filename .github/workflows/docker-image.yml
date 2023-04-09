@@ -25,6 +25,9 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
+    - name: test
+      run: echo ${{ steps.auth.outputs }}
+
     - name: Login to Artifact Registry
       uses: docker/login-action@v2
       with:
