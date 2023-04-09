@@ -24,6 +24,9 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
+    - name: test
+      run: echo $DOCKER_REGISTRY/$PROJECT_ID/$SERVICE_NAME/console:${{ github.sha }}
+
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
 
