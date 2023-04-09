@@ -12,6 +12,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    environment: CI
 
     steps:
     - uses: actions/checkout@v3
@@ -23,6 +24,8 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: test
       run: echo ${{ secrets.GCP_CREDENTIALS }}
+    - name: test
+      run: echo ${{ secrets.GKE_PROJECT }}
     - id: 'auth'
       uses: 'google-github-actions/auth@v1'
       with:
