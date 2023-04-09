@@ -21,10 +21,9 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Setup gcloud CLI
-      uses: google-github-actions/setup-gcloud@v0
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
       with:
-        service_account_key: ${{ secrets.GKE_SA_KEY }}
-        project_id: ${{ secrets.GKE_PROJECT }}
+        credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
     - name: Build the Docker image
       run: docker build . -f docker/console/Dockerfile -t kaiten-bot/console:${{ github.sha }}
