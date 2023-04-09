@@ -38,4 +38,4 @@ jobs:
         tags: |
           ${{ env.DOCKER_REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}/console:${{ github.sha }}
           ${{ env.DOCKER_REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}/console:latest
-        push: false
+        push: true
