@@ -25,7 +25,7 @@ jobs:
         credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
     - name: test
-      run: echo $DOCKER_REGISTRY/$PROJECT_ID/$SERVICE_NAME/console:${{ github.sha }}
+      run: echo ${{ env.DOCKER_REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}/console:${{ github.sha }}
 
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
@@ -38,5 +38,5 @@ jobs:
       with:
         context: .
         file: docker/console/Dockerfile
-        tags: $DOCKER_REGISTRY/$PROJECT_ID/$SERVICE_NAME/console:${{ github.sha }}
+        tags: ${{ env.DOCKER_REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}/console:${{ github.sha }}
         push: false
