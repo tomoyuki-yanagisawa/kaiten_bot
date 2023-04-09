@@ -30,8 +30,12 @@ jobs:
     - name: Authorize Docker push
       run: gcloud auth configure-docker $DOCKER_REGISTRY
 
-    - name: Build Docker image
-      run: docker build -f docker/console/Dockerfile -t $DOCKER_REGISTRY/$PROJECT_ID/$SERVICE_NAME/console:${{ github.sha }} .
-
-    - name: Push Docker Image
-      run: docker push $DOCKER_REGISTRY/$PROJECT_ID/$SERVICE_NAME/console:${{ github.sha }}
+    - name: Docker Build and push
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        file: docker/console/Dockerfile
+        tags: |
+          ${{ env.DOCKER_REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}/console:${{ github.sha }}
+          ${{ env.DOCKER_REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}/console:latest
+        push: true
