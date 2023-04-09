@@ -3,15 +3,35 @@ name: Docker Image CI
 on:
   push:
     branches:
-      - main
+      - '**'
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  SERVICE_NAME: kaiten-bot
+  DOCKER_REGISTRY: asia-northeast1-docker.pkg.dev
 
 jobs:
 
   build:
 
     runs-on: ubuntu-latest
+    environment: CI
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . -f docker/console/Dockerfile -t kaiten-bot/console:${{ github.sha }}
+
+    - name: Auth GCP
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+
+    - name: Authorize Docker push
+      run: gcloud auth configure-docker $DOCKER_REGISTRY
+
+    - name: Build Docker image
+      run: docker build -f docker/console/Dockerfile -t $DOCKER_REGISTRY/$PROJECT_ID/$SERVICE_NAME/console:${{ github.sha }} .
+
+    - name: Push Docker Image
+      run: docker push $DOCKER_REGISTRY/$PROJECT_ID/$SERVICE_NAME/console:${{ github.sha }}
