@@ -21,9 +21,11 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+    - name: test
+      run: echo ${{ secrets.GCP_CREDENTIALS }}
     - id: 'auth'
       uses: 'google-github-actions/auth@v1'
       with:
-        credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+        credentials_json: ${{ secrets.GCP_CREDENTIALS }}
     - name: Build the Docker image
       run: docker build . -f docker/console/Dockerfile -t kaiten-bot/console:${{ github.sha }}
