@@ -11,6 +11,9 @@ gem "mongo", "~> 2.0"
 gem "foreman"
 gem "dotenv"
 
+gem "puma"
+gem "sinatra"
+
 group :development do
   gem "rubocop", require: false
 end
