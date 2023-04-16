@@ -30,11 +30,6 @@ docker run hello-world # テスト
 ## Build
 
 ```
-docker build ../ -f console/Dockerfile -t kaiten-bot/console
-docker image ls
-```
-
-```
 docker build ../ -f ruby/Dockerfile -t kaiten-bot/ruby
 docker image ls
 ```
