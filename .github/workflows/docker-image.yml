@@ -37,8 +37,8 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         context: .
-        file: docker/console/Dockerfile
+        file: docker/ruby/Dockerfile
         tags: |
-          ${{ env.DOCKER_REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}/console:${{ github.sha }}
-          ${{ env.DOCKER_REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}/console:latest
+          ${{ env.DOCKER_REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}/ruby:${{ github.sha }}
+          ${{ env.DOCKER_REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}/ruby:latest
         push: true
